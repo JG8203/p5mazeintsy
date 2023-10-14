@@ -1,6 +1,6 @@
 import { Maze } from './model.js';
 import { renderMaze } from './view-functions.js';
-import { BFS, UCS, DFS, randomWalk } from './algorithms.js';
+import { BFS, UCS, DFS, randomWalk, trueRandomWalk, astar } from './algorithms.js';
 
 class MazeController {
     constructor(model, view) {
@@ -32,6 +32,12 @@ class MazeController {
                 break;
             case "randomWalk":
                 path = randomWalk(this.model);
+                break;
+            case "trueRandomWalk":
+                path = trueRandomWalk(this.model);
+                break;
+            case "astar":
+                path = astar(this.model);
                 break;
         }
         

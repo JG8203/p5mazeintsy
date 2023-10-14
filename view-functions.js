@@ -1,7 +1,6 @@
 import { NORTH, EAST, SOUTH, WEST } from './model.js';
 
 function renderMaze(p, maze) {
-    console.log("Bot object:", maze.bot); 
     let allCells = maze.getAllCells();
     let currentCell = maze.getCurrentCell();
     for (let cell of allCells) {

@@ -51,6 +51,10 @@ function getValidNeighbors(cell, model) {
     return neighbors;
 }
 
+function heuristic(a, b) {
+    return Math.abs(a.i - b.i) + Math.abs(a.j - b.j);
+}
+
 function reconstructPath(cameFrom, start, goal) {
     let path = [];
     let current = goal;
@@ -178,8 +182,66 @@ function randomWalk(model) {
     }
 
     return reconstructPath(cameFrom, start, goal);
+}   
+
+function trueRandomWalk(model) {
+    const start = model.grid[0];
+    const goal = model.grid[model.grid.length - 1];
+    let current = start;
+    let path = [start];  // Store the sequence of cells for visualization
+
+    while (current !== goal) {
+        let neighbors = getValidNeighbors(current, model);
+        
+        // Do not filter out visited neighbors, allowing for random movement in any direction
+        let next = neighbors[Math.floor(Math.random() * neighbors.length)];
+        path.push(next);  // Record this step in the path
+        current = next;
+    }
+
+    return path;
+}
+
+function astar(model) {
+    const start = model.grid[0];
+    const goal = model.grid[model.grid.length - 1];
+    let openSet = new PriorityQueue();
+    let closedSet = new Set();
+    let cameFrom = new Map();
+    let gScore = new Map();
+    
+    gScore.set(start, 0);
+    openSet.enqueue(start, heuristic(start, goal));
+
+    while (!openSet.isEmpty()) {
+        let current = openSet.dequeue();
+
+        if (current === goal) {
+            return reconstructPath(cameFrom, start, goal);
+        }
+
+        closedSet.add(current);
+        
+        let neighbors = getValidNeighbors(current, model);
+        for (let neighbor of neighbors) {
+            if (closedSet.has(neighbor)) continue;
+
+            let tentativeGScore = gScore.get(current) + 1; // Assuming each move between neighbors has a cost of 1
+
+            if (!openSet.elements.some(e => e.node === neighbor) || tentativeGScore < gScore.get(neighbor)) {
+                cameFrom.set(neighbor, current);
+                gScore.set(neighbor, tentativeGScore);
+                
+                let fScore = tentativeGScore + heuristic(neighbor, goal);
+                openSet.enqueue(neighbor, fScore);
+            }
+        }
+    }
+
+    // Return empty path if no path found
+    return [];
 }
 
 
 
-export { BFS, UCS, DFS, randomWalk };
+export { BFS, UCS, DFS, randomWalk, trueRandomWalk, astar };

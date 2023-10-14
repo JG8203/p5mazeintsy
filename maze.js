@@ -2,25 +2,40 @@ import { MazeController } from './controller.js';
 import { Maze } from './model.js';
 import { MazeView } from './view.js';
 
-let mazeController;
-
 const sketch = (p) => {
-
     let mazeController;
 
     p.setup = function() {
-        p.createCanvas(400, 400);
-        const model = new Maze(64, p.width);
-        const view = new MazeView(p, model);
-        mazeController = new MazeController(model, view); 
-        console.log("mazeController initialized", mazeController);
-        p.frameRate(144);
+        let canvas = p.createCanvas(900, 900);
+        canvas.id('myCanvas');
+        const initialSize = 20;
+        initializeMaze(initialSize);
+
         document.getElementById('play').addEventListener('click', () => {
             mazeController.model.bot.reset();
             console.log("Play button clicked!");  
             mazeController.traverseMaze();
         });
+
+        // Adding event listener for the "Generate Maze" button
+        document.getElementById('generate').addEventListener('click', () => {
+            const newSize = parseInt(document.getElementById('mazeSize').value);
+            if(!isNaN(newSize) && newSize > 0) {
+                initializeMaze(newSize);
+            } else {
+                console.log("Invalid maze size input");
+            }
+        });
     };
+
+    // Function to initialize or reinitialize the maze with a given size
+    function initializeMaze(size) {
+        const model = new Maze(size, p.width);
+        const view = new MazeView(p, model);
+        mazeController = new MazeController(model, view); 
+        console.log("mazeController initialized", mazeController);
+        p.frameRate(144);
+    }
 
     p.draw = function() {
         p.background(9,107,108,255);

@@ -1,0 +1,73 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Apply basic styles to the body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+/* Style the dropdown container */
+.dropdown {
+    margin-bottom: 10px;
+}
+
+/* Style the dropdown label and select element */
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* Style the maze controls container */
+.maze-controls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Style the maze size input and generate button */
+#mazeSize {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+#generate {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+/* Style the play button */
+#play {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#myCanvas {
+    display: block;
+    margin: 0 auto; /* Horizontally center the canvas */
+    max-width: 100%; /* Ensure the canvas doesn't exceed the width of its container */
+    height: auto; /* Allow the canvas to adjust its height proportionally */
+    width: 80%; /* Set the desired width for the canvas */
+}

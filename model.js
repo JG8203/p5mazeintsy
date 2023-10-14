@@ -38,6 +38,7 @@ class MazeModel {
         this.grid = this.makeGrid();
         this.current = this.grid[0];
         this.stack = [];
+        this.bot = new Bot();
     }
 
     makeGrid() {
@@ -90,6 +91,16 @@ class MazeModel {
     getAllCells() {
         return this.grid;
     }
+
+    generateCompleteMaze() {
+        while (!this.isMazeCompleted()) {
+            this.generateStep();
+        }
+    }
+
+    isMazeCompleted() {
+        return this.stack.length === 0 && this.current === this.grid[0];
+    }
 }
 
 function getIndex(i, j, rows) {
@@ -99,4 +110,37 @@ function getIndex(i, j, rows) {
     return j + i * rows;
 }
 
+class Bot {
+    constructor() {
+        this.i = 0;
+        this.j = 0;
+        this.counter = 0;
+        this.path = [];
+    }
+
+    move(i, j) {
+        this.i = i;
+        this.j = j;
+        this.counter++;
+        this.path.push({i, j});  // Store each move in the path
+    }
+
+    getCounter() {
+        return this.counter;
+    }
+
+    getPath() {
+        return this.path;
+    }
+    
+    reset() {
+        this.i = 0;
+        this.j = 0;
+        this.counter = 0;
+        this.path = [];
+    }
+}
+
+export { getIndex };
+export { Bot };
 export { MazeModel as Maze };

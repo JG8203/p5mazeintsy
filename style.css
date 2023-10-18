@@ -5,19 +5,18 @@
     box-sizing: border-box;
 }
 
-/* Apply basic styles to the body */
+/* Global Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     padding: 20px;
 }
 
-/* Style the dropdown container */
+/* Dropdown Styles */
 .dropdown {
     margin-bottom: 10px;
 }
 
-/* Style the dropdown label and select element */
 label {
     font-weight: bold;
     display: block;
@@ -30,14 +29,13 @@ select {
     font-size: 16px;
 }
 
-/* Style the maze controls container */
+/* Maze Controls Styles */
 .maze-controls {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
 }
 
-/* Style the maze size input and generate button */
 #mazeSize {
     flex-grow: 1;
     padding: 10px;
@@ -45,29 +43,29 @@ select {
     margin-right: 10px;
 }
 
-#generate {
+/* Button Styles */
+/* Button Styles */
+#play, #punchHoles, #generate {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #007bff;
     color: #fff;
     border: none;
     cursor: pointer;
 }
 
-/* Style the play button */
-#play {
-    padding: 10px 20px;
-    font-size: 16px;
+#play, #generate {
     background-color: #28a745;
-    color: #fff;
-    border: none;
-    cursor: pointer;
 }
 
+#punchHoles {
+    background-color: #007bff;
+}
+
+/* Canvas Styles */
 #myCanvas {
     display: block;
     margin: 0 auto; /* Horizontally center the canvas */
     max-width: 100%; /* Ensure the canvas doesn't exceed the width of its container */
-    height: auto; /* Allow the canvas to adjust its height proportionally */
     width: 80%; /* Set the desired width for the canvas */
+    height: auto; /* Allow the canvas to adjust its height proportionally */
 }

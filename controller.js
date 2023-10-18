@@ -52,6 +52,11 @@ class MazeController {
         }
         moveBot();
     }
+    
+    punchHoles() {
+        this.model.createRandomHoles();
+        this.view.display();
+    }
 }
 
 export { MazeController };

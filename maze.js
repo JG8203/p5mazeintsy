@@ -26,6 +26,10 @@ const sketch = (p) => {
                 console.log("Invalid maze size input");
             }
         });
+        document.getElementById('punchHoles').addEventListener('click', () => {
+            mazeController.punchHoles();
+            console.log("Punch Holes button clicked!");
+        });
     };
 
     // Function to initialize or reinitialize the maze with a given size

@@ -101,6 +101,15 @@ class MazeModel {
     isMazeCompleted() {
         return this.stack.length === 0 && this.current === this.grid[0];
     }
+
+    createRandomHoles() {
+        let numHoles = Math.floor(this.grid.length * 0.1);  // Punch holes in 10% of the maze cells, adjust as needed
+        for (let i = 0; i < numHoles; i++) {
+            let randomCell = this.grid[Math.floor(Math.random() * this.grid.length)];
+            let randomWall = Math.floor(Math.random() * 4);
+            randomCell.walls[randomWall] = false;
+        }
+    }
 }
 
 function getIndex(i, j, rows) {

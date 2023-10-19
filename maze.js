@@ -8,7 +8,7 @@ const sketch = (p) => {
     p.setup = function() {
         let canvas = p.createCanvas(900, 900);
         canvas.id('myCanvas');
-        const initialSize = 20;
+        const initialSize = 10;
         initializeMaze(initialSize);
 
         document.getElementById('play').addEventListener('click', () => {
@@ -37,15 +37,22 @@ const sketch = (p) => {
         const model = new Maze(size, p.width);
         const view = new MazeView(p, model);
         mazeController = new MazeController(model, view); 
-        console.log("mazeController initialized", mazeController);
         p.frameRate(144);
     }
 
     p.draw = function() {
-        p.background(9,107,108,255);
+        p.background(9, 107, 108, 255);
         mazeController.update();
+        
+        // Draw a black background for the text
+        p.fill(0); // Set fill color to black
+        let textWidth = p.textWidth(`Blocks traversed: ${mazeController.model.bot.getCounter()}`);
+        p.rect(10, p.height - 30, textWidth + 20, 20); // Adjust the position and size as needed
+        
+        // Display the text on top of the black background
+        p.fill(255); // Set text color to white
         p.text(`Blocks traversed: ${mazeController.model.bot.getCounter()}`, 10, p.height - 10);
-    };
+    };    
 };
 
 let myp5 = new p5(sketch);

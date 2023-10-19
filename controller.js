@@ -2,22 +2,38 @@ import { Maze } from './model.js';
 import { renderMaze } from './view-functions.js';
 import { BFS, UCS, DFS, randomWalk, trueRandomWalk, astar } from './algorithms.js';
 
+
 class MazeController {
     constructor(model, view) {
         this.model = model;
         this.view = view;
+        this.isTraversalRunning = false;
+        this.isGenerating = true;
+        this.animateGeneration = true;
     }
 
     update() {
-        this.stepGeneration();
+        if (this.isGenerating) {
+            this.stepGeneration();
+        }
         this.view.display();
     }
 
     stepGeneration() {
-        this.model.generateStep();
+        if (!this.model.isMazeCompleted()) {
+            this.model.generateStep();
+        } else {
+            this.isGenerating = false;
+        }
     }
 
     traverseMaze() {
+        if (this.isTraversalRunning) return;
+        this.isTraversalRunning = true;
+
+        const playButton = document.getElementById('play');
+        playButton.disabled = true;
+
         const algorithm = document.getElementById("algorithm").value;
         let path;
         switch (algorithm) {
@@ -48,6 +64,9 @@ class MazeController {
                 let cell = path[pathIndex++];
                 this.model.bot.move(cell.i, cell.j);
                 setTimeout(moveBot, 100);  // Delay to animate movement
+            } else {
+                this.isTraversalRunning = false; // Reset the flag
+                playButton.disabled = false; // Re-enable the button
             }
         }
         moveBot();
@@ -57,6 +76,18 @@ class MazeController {
         this.model.createRandomHoles();
         this.view.display();
     }
+
+/*     generateMazeInstantly() {
+        while (!this.model.isMazeCompleted()) {
+            this.model.generateStep();
+        }
+        this.view.renderMaze();
+    } */
+
+    toggleAnimation(value) {
+        this.animateGeneration = value;
+    }
+
 }
 
 export { MazeController };

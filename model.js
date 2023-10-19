@@ -39,6 +39,7 @@ class MazeModel {
         this.current = this.grid[0];
         this.stack = [];
         this.bot = new Bot();
+        this.visitedCounter = 0;
     }
 
     makeGrid() {
@@ -71,19 +72,23 @@ class MazeModel {
     }
 
     generateStep() {
-        this.current.visited = true;
-
+        if (!this.current.visited) {
+            this.visitedCounter++; 
+            this.current.visited = true;
+        }
+    
         let next = this.current.getRandomUnvisitedNeighbor(this.grid);
         if (next) {
             this.stack.push(this.current);
             this.carvePath(this.current, next);
             this.current = next;
-            this.current.visited = true;
+    
         } else if (this.stack.length) {
             this.current = this.stack.pop();
         }
+    
     }
-
+    
     getCurrentCell() {
         return this.current;
     }
@@ -92,15 +97,9 @@ class MazeModel {
         return this.grid;
     }
 
-    generateCompleteMaze() {
-        while (!this.isMazeCompleted()) {
-            this.generateStep();
-        }
-    }
-
     isMazeCompleted() {
-        return this.stack.length === 0 && this.current === this.grid[0];
-    }
+        return this.visitedCounter === this.grid.length;
+    }    
 
     createRandomHoles() {
         let numHoles = Math.floor(this.grid.length * 0.1);  // Punch holes in 10% of the maze cells, adjust as needed
@@ -110,6 +109,29 @@ class MazeModel {
             randomCell.walls[randomWall] = false;
         }
     }
+
+    countWalls() {
+        let wallCount = 0;
+        for (let cell of this.grid) {
+            for (let wall of cell.walls) {
+                if (wall) {
+                    wallCount++;
+                }
+            }
+        }
+        return wallCount;
+    }
+    
+    getStepCount() {
+        return this.stack.length;
+    }
+
+    generateCompleteMaze() {
+        while (!this.isMazeCompleted()) {
+            this.generateStep();
+        }
+    }
+    
 }
 
 function getIndex(i, j, rows) {

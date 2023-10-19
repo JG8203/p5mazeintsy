@@ -54,11 +54,7 @@ function drawCell(p, cell) {
 
 
 function highlightCell(p, cell) {
-    let x = cell.i * cell.w;
-    let y = cell.j * cell.w;
-    p.noStroke();
-    p.fill(154,85,72,255);
-    p.rect(x, y, cell.w, cell.w);
+
 }
 
 function highlightPath(p, cell, cellWidth) {

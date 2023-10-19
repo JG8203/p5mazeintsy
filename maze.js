@@ -6,7 +6,7 @@ const sketch = (p) => {
     let mazeController;
 
     p.setup = function() {
-        let canvas = p.createCanvas(900, 900);
+        let canvas = p.createCanvas(570, 570);
         canvas.id('myCanvas');
         const initialSize = 10;
         initializeMaze(initialSize);

@@ -7,31 +7,32 @@
     <title>Your p5.js Sketch</title>
 </head>
 <body>
-    <!-- Existing dropdown for selecting algorithm -->
-    <div class="dropdown">
-        <label for="algorithm">Select Algorithm:</label>
-        <select id="algorithm">
-            <option value="bfs">BFS</option>
-            <option value="dfs">DFS</option>
-            <option value="astar">A*</option>
-            <option value="ucs">Uniform Cost Search</option>
-            <option value="randomWalk">Random Walk</option>
-            <option value="trueRandomWalk">True Random Walk</option>
-        </select>
-    </div>
 
-    <!-- Maze size input and generate button -->
-    <div class="maze-controls">
-        <label for="mazeSize">Maze size (n x n):</label>
-        <input type="number" id="mazeSize" min="2" value="10">
-        <button id="generate">Generate Maze</button>
-        <button id="punchHoles">Punch Holes</button>
-<!--         <input type="checkbox" id="instantGeneration" name="instantGeneration">
-        <label for="instantGeneration">Instant Generation</label> -->
+    <!-- Maze size input and generate button -->     <!-- Existing play button -->
+    
+    <div class = "container">
+        <div class="title">MAZE ALGORITHM VISUALIZER</div>
+        <!-- Existing dropdown for selecting algorithm -->
+        <div class="dropdown">
+            <label for="algorithm">Select Algorithm:</label>
+            <select id="algorithm">
+                <option value="bfs">BFS</option>
+                <option value="dfs">DFS</option>
+                <option value="astar">A*</option>
+                <option value="ucs">Uniform Cost Search</option>
+                <option value="randomWalk">Random Walk</option>
+                <option value="trueRandomWalk">True Random Walk</option>
+            </select>
+        </div>
+        <div class="maze-controls">
+            <label for="mazeSize">Maze size (n x n):</label>
+            <input type="number" id="mazeSize" min="2" value="10">
+            <button id="generate">Generate Maze</button>
+            <button id="punchHoles">Punch Holes</button>
+            <button id="play">Play</button>
+        </div>
     </div>
-
-    <!-- Existing play button -->
-    <button id="play">Play</button>
+   
 
     <!-- Scripts -->
     <script src="node_modules/p5/lib/p5.js"></script>

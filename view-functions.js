@@ -49,6 +49,15 @@ function drawCell(p, cell) {
     if (cell.walls[EAST]) p.line(x + cell.w, y, x + cell.w, y + cell.w);
     if (cell.walls[SOUTH]) p.line(x, y + cell.w, x + cell.w, y + cell.w);
     if (cell.walls[WEST]) p.line(x, y, x, y + cell.w);
+    p.fill(0);  // Assuming black text color
+    p.textSize(12);  // You can adjust this as needed
+
+    // Calculate the position where the text should be drawn
+    let textX = x + cell.w / 2;
+    let textY = y + cell.w / 2;
+
+    // Draw the cell's coordinates in the center of the cell
+    p.text(`${cell.i}, ${cell.j}`, textX, textY);
 }
 
 

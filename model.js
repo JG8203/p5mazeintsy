@@ -132,6 +132,14 @@ class MazeModel {
             this.generateStep();
         }
     }
+
+    getCell(i, j) {
+        return this.grid[getIndex(i, j, this.rows)];
+    }
+
+    modifyCell(i, j, walls) {
+        this.grid[getIndex(i, j, this.rows)].walls = walls;
+    }
     
 }
 

@@ -30,6 +30,25 @@ const sketch = (p) => {
             mazeController.punchHoles();
             console.log("Punch Holes button clicked!");
         });
+        document.getElementById('updateCell').addEventListener('click', () => {
+            const i = parseInt(document.getElementById('cellX').value);
+            const j = parseInt(document.getElementById('cellY').value);
+    
+            // Check if entered coordinates are valid
+            if(!isNaN(i) && i >= 0 && i < mazeController.model.cols && 
+               !isNaN(j) && j >= 0 && j < mazeController.model.rows) {
+                // Fetch the state of each checkbox
+                let northWall = document.getElementById('northWall').checked;
+                let eastWall = document.getElementById('eastWall').checked;
+                let southWall = document.getElementById('southWall').checked;
+                let westWall = document.getElementById('westWall').checked;
+                
+                // Modify the walls of the specified cell
+                mazeController.model.modifyCell(i, j, [northWall, eastWall, southWall, westWall]);
+            } else {
+                alert("Invalid cell coordinates. Please enter valid values.");
+            }
+        });
     };
 
     function initializeMaze(size) {

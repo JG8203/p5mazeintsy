@@ -1,6 +1,7 @@
 import { MazeController } from './controller.js';
 import { Maze } from './model.js';
 import { MazeView } from './view.js';
+import { highlightExplored } from './view-functions.js';
 
 const sketch = (p) => {
     let mazeController;
@@ -8,7 +9,7 @@ const sketch = (p) => {
     p.setup = function() {
         let canvas = p.createCanvas(900, 900);
         canvas.id('myCanvas');
-        const initialSize = 20;
+        const initialSize = 5;
         initializeMaze(initialSize);
 
         document.getElementById('play').addEventListener('click', () => {
@@ -38,10 +39,14 @@ const sketch = (p) => {
     }
 
     p.draw = function() {
-        p.background(9,107,108,255);
-        mazeController.update();
+        p.background(9,107,108,255);   // Clear the background
+    
+        mazeController.update();   // This will handle maze generation and display the maze
+    
+        highlightExplored(p, mazeController.model.bot.getExplored());  // Highlight explored paths
         p.text(`Blocks traversed: ${mazeController.model.bot.getCounter()}`, 10, p.height - 10);
     };
+    
 };
 
 let myp5 = new p5(sketch);

@@ -6,14 +6,18 @@ function BFS(model) {
     let queue = [];
     let visited = new Set();
     let cameFrom = new Map();
+    let exploredCells = [];  // Added to store the order of visited cells
 
     queue.push(start);
+    visited.add(start);  // Mark the start node as visited
 
     while (queue.length > 0) {
         let current = queue.shift();
+        exploredCells.push(current);  // Add current cell to the explored cells
 
         if (current === goal) {
-            return reconstructPath(cameFrom, start, goal);
+            let finalPath = reconstructPath(cameFrom, start, goal);
+            return { path: finalPath, explored: exploredCells };  // Return both the path and explored cells
         }
 
         let neighbors = getValidNeighbors(current, model);
@@ -26,9 +30,10 @@ function BFS(model) {
         }
     }
 
-    // Return empty path if no path found
-    return [];
+    // Return empty path if no path found along with explored cells
+    return { path: [], explored: exploredCells };
 }
+
 
 function getValidNeighbors(cell, model) {
     const directions = [
@@ -94,15 +99,18 @@ function UCS(model) {
     let visited = new Set();
     let cameFrom = new Map();
     let gScore = new Map();
+    let exploredCells = [];
 
     queue.enqueue(start, 0);
     gScore.set(start, 0);
 
     while (!queue.isEmpty()) {
         let current = queue.dequeue();
+        exploredCells.push(current);
 
         if (current === goal) {
-            return reconstructPath(cameFrom, start, goal);
+            let finalPath = reconstructPath(cameFrom, start, goal);
+            return { path: finalPath, explored: exploredCells };  // Return both the path and explored cells
         }
 
         let neighbors = getValidNeighbors(current, model);
@@ -130,14 +138,17 @@ function DFS(model) {
     let stack = [];
     let visited = new Set();
     let cameFrom = new Map();
+    let exploredCells = [];
 
     stack.push(start);
 
     while (stack.length > 0) {
         let current = stack.pop();
+        exploredCells.push(current);
 
         if (current === goal) {
-            return reconstructPath(cameFrom, start, goal);
+            let finalPath = reconstructPath(cameFrom, start, goal);
+            return { path: finalPath, explored: exploredCells };
         }
 
         let neighbors = getValidNeighbors(current, model);
@@ -154,36 +165,6 @@ function DFS(model) {
     return [];
 }
 
-function randomWalk(model) {
-    const start = model.grid[0];
-    const goal = model.grid[model.grid.length - 1];
-    let current = start;
-    let visited = new Set();
-    let cameFrom = new Map();
-
-    while (current !== goal) {
-        visited.add(current);
-        
-        let neighbors = getValidNeighbors(current, model);
-        let unvisitedNeighbors = neighbors.filter(neighbor => !visited.has(neighbor));
-
-        // If there are no unvisited neighbors, backtrack
-        if (unvisitedNeighbors.length === 0) {
-            current = cameFrom.get(current); // backtrack
-            if (!current) {  // if no place to backtrack, exit (this is a trapped scenario)
-                return [];   // return empty path indicating failure
-            }
-            continue;
-        }
-        
-        let next = unvisitedNeighbors[Math.floor(Math.random() * unvisitedNeighbors.length)];
-        cameFrom.set(next, current);
-        current = next;
-    }
-
-    return reconstructPath(cameFrom, start, goal);
-}   
-
 function trueRandomWalk(model) {
     const start = model.grid[0];
     const goal = model.grid[model.grid.length - 1];
@@ -199,7 +180,7 @@ function trueRandomWalk(model) {
         current = next;
     }
 
-    return path;
+    return { path: path, explored: path };  // Return both the path and explored cells
 }
 
 function astar(model) {
@@ -209,15 +190,18 @@ function astar(model) {
     let closedSet = new Set();
     let cameFrom = new Map();
     let gScore = new Map();
+    let exploredCells = [];
     
     gScore.set(start, 0);
     openSet.enqueue(start, heuristic(start, goal));
 
     while (!openSet.isEmpty()) {
         let current = openSet.dequeue();
+        exploredCells.push(current);
 
         if (current === goal) {
-            return reconstructPath(cameFrom, start, goal);
+            let finalPath = reconstructPath(cameFrom, start, goal);
+            return { path: finalPath, explored: exploredCells };
         }
 
         closedSet.add(current);
@@ -244,4 +228,4 @@ function astar(model) {
 
 
 
-export { BFS, UCS, DFS, randomWalk, trueRandomWalk, astar };
+export { BFS, UCS, DFS, trueRandomWalk, astar };

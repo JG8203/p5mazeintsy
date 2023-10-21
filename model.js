@@ -116,6 +116,7 @@ class Bot {
         this.j = 0;
         this.counter = 0;
         this.path = [];
+        this.explored = new Set();
     }
 
     move(i, j) {
@@ -139,6 +140,18 @@ class Bot {
         this.counter = 0;
         this.path = [];
     }
+
+    addExplored(cell) {
+        this.explored.add(`${cell.i},${cell.j}`);
+    }
+
+    getExplored() {
+        return Array.from(this.explored).map(coord => {
+            const [i, j] = coord.split(',').map(Number);
+            return {i, j};
+        });
+    }
+
 }
 
 export { getIndex };

@@ -1,6 +1,6 @@
 import { Maze } from './model.js';
-import { renderMaze } from './view-functions.js';
-import { BFS, UCS, DFS, randomWalk, trueRandomWalk, astar } from './algorithms.js';
+import { renderMaze, highlightExplored } from './view-functions.js';
+import { BFS, UCS, DFS, trueRandomWalk, astar } from './algorithms.js';
 
 class MazeController {
     constructor(model, view) {
@@ -19,39 +19,53 @@ class MazeController {
 
     traverseMaze() {
         const algorithm = document.getElementById("algorithm").value;
-        let path;
+        let result;  // to store path and explored cells
+    
         switch (algorithm) {
             case "bfs":
-                path = BFS(this.model);
+                result = BFS(this.model);
                 break;
             case "ucs":
-                path = UCS(this.model);
+                result = UCS(this.model);
                 break;
             case "dfs":
-                path = DFS(this.model);
+                result = DFS(this.model);
                 break;
             case "randomWalk":
-                path = randomWalk(this.model);
+                result = randomWalk(this.model);
                 break;
             case "trueRandomWalk":
-                path = trueRandomWalk(this.model);
+                result = trueRandomWalk(this.model);
                 break;
             case "astar":
-                path = astar(this.model);
+                result = astar(this.model);
                 break;
+            default:
+                console.error("Unknown algorithm selected:", algorithm);
+                return;
         }
-        
-        // Animate the bot movement
-        let pathIndex = 0;
-        const moveBot = () => {
-            if (pathIndex < path.length) {
-                let cell = path[pathIndex++];
-                this.model.bot.move(cell.i, cell.j);
-                setTimeout(moveBot, 100);  // Delay to animate movement
+    
+        const path = result.path;
+        const exploredCells = result.explored;
+    
+        // Highlight explored cells
+        for (let cell of exploredCells) {
+            highlightExplored(this.view.p, cell, this.model.w);
+        }
+    
+        // Introduce a delay before starting the bot's animation to give time for the explored cells to be highlighted
+        setTimeout(() => {
+            let pathIndex = 0;
+            const moveBot = () => {
+                if (pathIndex < path.length) {
+                    let cell = path[pathIndex++];
+                    this.model.bot.move(cell.i, cell.j);
+                    setTimeout(moveBot, 100);  // Delay to animate movement
+                }
             }
-        }
-        moveBot();
-    }
+            moveBot();
+        }, 1000); // 1 second delay, adjust as necessary
+    }    
 }
 
 export { MazeController };

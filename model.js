@@ -138,8 +138,14 @@ class MazeModel {
     }
 
     modifyCell(i, j, walls) {
-        this.grid[getIndex(i, j, this.rows)].walls = walls;
+        const cell = this.grid[getIndex(i, j, this.rows)];
+        for (let k = 0; k < 4; k++) {
+            if (walls[k] !== undefined) {
+                cell.walls[k] = walls[k];
+            }
+        }
     }
+    
     
 }
 

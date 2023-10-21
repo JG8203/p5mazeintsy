@@ -33,7 +33,7 @@ const sketch = (p) => {
         document.getElementById('updateCell').addEventListener('click', () => {
             const i = parseInt(document.getElementById('cellX').value);
             const j = parseInt(document.getElementById('cellY').value);
-    
+        
             // Check if entered coordinates are valid
             if(!isNaN(i) && i >= 0 && i < mazeController.model.cols && 
                !isNaN(j) && j >= 0 && j < mazeController.model.rows) {
@@ -42,9 +42,24 @@ const sketch = (p) => {
                 let eastWall = document.getElementById('eastWall').checked;
                 let southWall = document.getElementById('southWall').checked;
                 let westWall = document.getElementById('westWall').checked;
-                
+        
                 // Modify the walls of the specified cell
                 mazeController.model.modifyCell(i, j, [northWall, eastWall, southWall, westWall]);
+        
+                // Modify walls of neighboring cells
+                if (j > 0) {  // If not in the top row
+                    mazeController.model.modifyCell(i, j - 1, [undefined, undefined, northWall, undefined]);
+                }
+                if (i < mazeController.model.cols - 1) {  // If not in the last column
+                    mazeController.model.modifyCell(i + 1, j, [undefined, undefined, undefined, eastWall]);
+                }
+                if (j < mazeController.model.rows - 1) {  // If not in the bottom row
+                    mazeController.model.modifyCell(i, j + 1, [southWall, undefined, undefined, undefined]);
+                }
+                if (i > 0) {  // If not in the first column
+                    mazeController.model.modifyCell(i - 1, j, [undefined, westWall, undefined, undefined]);
+                }
+        
             } else {
                 alert("Invalid cell coordinates. Please enter valid values.");
             }

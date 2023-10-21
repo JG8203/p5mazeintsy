@@ -128,6 +128,7 @@ class MazeModel {
 
     generateCompleteMaze() {
         while (!this.isMazeCompleted()) {
+            console.log("Generating maze...")
             this.generateStep();
         }
     }

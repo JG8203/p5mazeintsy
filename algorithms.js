@@ -87,16 +87,14 @@ class PriorityQueue {
     }
 }
 
-function UCS(model) {
+function GBFS(model) {
     const start = model.grid[0];
     const goal = model.grid[model.grid.length - 1];
     let queue = new PriorityQueue();
     let visited = new Set();
     let cameFrom = new Map();
-    let gScore = new Map();
 
-    queue.enqueue(start, 0);
-    gScore.set(start, 0);
+    queue.enqueue(start, heuristic(start, goal));
 
     while (!queue.isEmpty()) {
         let current = queue.dequeue();
@@ -105,17 +103,16 @@ function UCS(model) {
             return reconstructPath(cameFrom, start, goal);
         }
 
+        if (visited.has(current)) {
+            continue;
+        }
+        visited.add(current);
+
         let neighbors = getValidNeighbors(current, model);
         for (let neighbor of neighbors) {
-            // Assuming each move between neighbors has a cost of 1
-            // Adjust if your model has different costs
-            let tentativeGScore = gScore.get(current) + 1;
-
-            if (!visited.has(neighbor) || tentativeGScore < gScore.get(neighbor)) {
+            if (!visited.has(neighbor)) {
                 cameFrom.set(neighbor, current);
-                gScore.set(neighbor, tentativeGScore);
-                queue.enqueue(neighbor, tentativeGScore);
-                visited.add(neighbor);
+                queue.enqueue(neighbor, heuristic(neighbor, goal));
             }
         }
     }
@@ -244,4 +241,4 @@ function astar(model) {
 
 
 
-export { BFS, UCS, DFS, randomWalk, trueRandomWalk, astar };
+export { BFS, GBFS, DFS, randomWalk, trueRandomWalk, astar };

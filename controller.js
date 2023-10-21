@@ -1,6 +1,6 @@
 import { Maze } from './model.js';
 import { renderMaze } from './view-functions.js';
-import { BFS, UCS, DFS, randomWalk, trueRandomWalk, astar } from './algorithms.js';
+import { BFS, GBFS, DFS, randomWalk, trueRandomWalk, astar } from './algorithms.js';
 
 
 class MazeController {
@@ -40,14 +40,11 @@ class MazeController {
             case "bfs":
                 path = BFS(this.model);
                 break;
-            case "ucs":
-                path = UCS(this.model);
+            case "gbfs":
+                path = GBFS(this.model);
                 break;
             case "dfs":
                 path = DFS(this.model);
-                break;
-            case "randomWalk":
-                path = randomWalk(this.model);
                 break;
             case "trueRandomWalk":
                 path = trueRandomWalk(this.model);
@@ -63,7 +60,7 @@ class MazeController {
             if (pathIndex < path.length) {
                 let cell = path[pathIndex++];
                 this.model.bot.move(cell.i, cell.j);
-                setTimeout(moveBot, 100);  // Delay to animate movement
+                setTimeout(moveBot, 1);  // Delay to animate movement
             } else {
                 this.isTraversalRunning = false; // Reset the flag
                 playButton.disabled = false; // Re-enable the button
@@ -76,13 +73,6 @@ class MazeController {
         this.model.createRandomHoles();
         this.view.display();
     }
-
-/*     generateMazeInstantly() {
-        while (!this.model.isMazeCompleted()) {
-            this.model.generateStep();
-        }
-        this.view.renderMaze();
-    } */
 
     toggleAnimation(value) {
         this.animateGeneration = value;

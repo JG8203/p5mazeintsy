@@ -60,7 +60,7 @@ class MazeController {
             if (pathIndex < path.length) {
                 let cell = path[pathIndex++];
                 this.model.bot.move(cell.i, cell.j);
-                setTimeout(moveBot, 1);  // Delay to animate movement
+                setTimeout(moveBot, 100);  // Delay to animate movement
             } else {
                 this.isTraversalRunning = false; // Reset the flag
                 playButton.disabled = false; // Re-enable the button

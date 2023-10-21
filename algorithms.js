@@ -26,7 +26,6 @@ function BFS(model) {
         }
     }
 
-    // Return empty path if no path found
     return [];
 }
 

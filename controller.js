@@ -55,6 +55,12 @@ class MazeController {
         }
         
         // Animate the bot movement
+        if (path.length === 0) {
+            alert("No path found!");
+            this.isTraversalRunning = false; // Reset the flag
+            playButton.disabled = false; // Re-enable the button
+            return;
+        }
         let pathIndex = 0;
         const moveBot = () => {
             if (pathIndex < path.length) {

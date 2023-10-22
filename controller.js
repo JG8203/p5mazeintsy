@@ -2,7 +2,6 @@ import { Maze } from './model.js';
 import { renderMaze } from './view-functions.js';
 import { BFS, GBFS, DFS, randomWalk, trueRandomWalk, astar } from './algorithms.js';
 
-
 class MazeController {
     constructor(model, view) {
         this.model = model;
@@ -53,12 +52,11 @@ class MazeController {
                 path = astar(this.model);
                 break;
         }
-        
-        // Animate the bot movement
+
         if (path.length === 0) {
             alert("No path found!");
-            this.isTraversalRunning = false; // Reset the flag
-            playButton.disabled = false; // Re-enable the button
+            this.isTraversalRunning = false; 
+            playButton.disabled = false; 
             return;
         }
         let pathIndex = 0;
@@ -66,15 +64,15 @@ class MazeController {
             if (pathIndex < path.length) {
                 let cell = path[pathIndex++];
                 this.model.bot.move(cell.i, cell.j);
-                setTimeout(moveBot, 100);  // Delay to animate movement
+                setTimeout(moveBot, 100);  
             } else {
-                this.isTraversalRunning = false; // Reset the flag
-                playButton.disabled = false; // Re-enable the button
+                this.isTraversalRunning = false; 
+                playButton.disabled = false; 
             }
         }
         moveBot();
     }
-    
+
     punchHoles() {
         this.model.createRandomHoles();
         this.view.display();

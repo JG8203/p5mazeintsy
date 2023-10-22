@@ -7,14 +7,12 @@ function renderMaze(p, maze) {
         drawCell(p, cell);
         highlightCell(p,currentCell);
     }
-    
-    // Render the bot's path
+
     let botPath = maze.bot.getPath();
     for (let cell of botPath) {
         highlightPath(p, cell, maze.w);
     }
-    
-    // Render the bot at its current position
+
     drawBot(p, maze.bot, maze.w);
 }
 
@@ -22,7 +20,7 @@ function drawBot(p, bot, cellWidth) {
     let x = bot.i * cellWidth;
     let y = bot.j * cellWidth;
     p.textSize(20);
-    p.text("🤖", x + 5, y + 20); // A simple robot emoji representation
+    p.text("🤖", x + 5, y + 20); 
 }
 
 function drawCell(p, cell) {
@@ -30,7 +28,6 @@ function drawCell(p, cell) {
     let y = cell.j * cell.w;
     let wallThickness = 1;
 
-    // Determine the rectangle dimensions and position based on the walls
     let rectX = cell.walls[WEST] ? x + wallThickness : x;
     let rectY = cell.walls[NORTH] ? y + wallThickness : y;
     let rectW = cell.w - (cell.walls[WEST] ? wallThickness : 0) - (cell.walls[EAST] ? wallThickness : 0);
@@ -49,18 +46,14 @@ function drawCell(p, cell) {
     if (cell.walls[EAST]) p.line(x + cell.w, y, x + cell.w, y + cell.w);
     if (cell.walls[SOUTH]) p.line(x, y + cell.w, x + cell.w, y + cell.w);
     if (cell.walls[WEST]) p.line(x, y, x, y + cell.w);
-    p.fill(0);  // Assuming black text color
-    p.textSize(12);  // You can adjust this as needed
+    p.fill(0);  
+    p.textSize(12);  
 
-    // Calculate the position where the text should be drawn
     let textX = x + cell.w / 2;
     let textY = y + cell.w / 2;
 
-    // Draw the cell's coordinates in the center of the cell
     p.text(`${cell.i}, ${cell.j}`, textX, textY);
 }
-
-
 
 function highlightCell(p, cell) {
 
@@ -70,9 +63,8 @@ function highlightPath(p, cell, cellWidth) {
     let x = cell.i * cellWidth;
     let y = cell.j * cellWidth;
     p.noStroke();
-    p.fill(255, 255, 0, 150);  // Yellow color for the path
+    p.fill(255, 255, 0, 150);  
     p.rect(x, y, cellWidth, cellWidth);
 }
-
 
 export { renderMaze };
